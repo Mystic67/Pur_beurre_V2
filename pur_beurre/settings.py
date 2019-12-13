@@ -11,8 +11,6 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 
 import os
-if os.environ.get('ENV') == 'PRODUCTION':
-    import django_heroku
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -21,12 +19,13 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 if os.environ.get('ENV') == 'PRODUCTION':
     DEBUG = False
     SECRET_KEY = os.environ.get("SECRET_KEY")
-    ALLOWED_HOSTS = ['purbeurre-2019.herokuapp.com']
+
 else:
     DEBUG = True
     # SECURITY WARNING: keep the secret key used in production secret!
     SECRET_KEY = 'k7xw2@*qbefmo!b52341e3@s$om&r+i^pd7389qz!@48k7jg#h'
-    ALLOWED_HOSTS = ['127.0.0.1']
+
+ALLOWED_HOSTS = ['127.0.0.1', 'passion-geek.com', 'www.passion-geek.com']
 
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 # SESSION_COOKIE_AGE=
@@ -128,8 +127,8 @@ INTERNAL_IPS = ['127.0.0.1']
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
-if os.environ.get('ENV') == 'PRODUCTION':
-    STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+# if os.environ.get('ENV') == 'PRODUCTION':
+#     STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 STATIC_URL = '/static/'
 
@@ -141,6 +140,5 @@ CATEGORIES = [
     "Desserts",
     "Fromages"
 ]
-if os.environ.get('ENV') == 'PRODUCTION':
-    django_heroku.settings(locals())
+
 
