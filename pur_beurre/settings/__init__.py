@@ -18,7 +18,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # SECURITY WARNING: don't run with debug turned on in production!
 SECRET_KEY = 'k7xw2@*qbefmo!b52341e3@s$om&r+i^pd7389qz!@48k7jg#h'
 
-ALLOWED_HOSTS = ['127.0.0.1', 'passion-geek.com', 'www.passion-geek.com']
+ALLOWED_HOSTS = ['127.0.0.1']
 
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 # SESSION_COOKIE_AGE=
