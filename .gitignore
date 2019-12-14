@@ -245,3 +245,6 @@ fabric.properties
 
 #server collected staticfiles
 staticfiles/
+
+# production settings file
+production.py
