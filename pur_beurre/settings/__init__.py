@@ -16,20 +16,15 @@ import os
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # SECURITY WARNING: don't run with debug turned on in production!
-if os.environ.get('ENV') == 'PRODUCTION':
-    DEBUG = False
-    SECRET_KEY = os.environ.get("SECRET_KEY")
-
-else:
-    DEBUG = True
-    # SECURITY WARNING: keep the secret key used in production secret!
-    SECRET_KEY = 'k7xw2@*qbefmo!b52341e3@s$om&r+i^pd7389qz!@48k7jg#h'
+SECRET_KEY = 'k7xw2@*qbefmo!b52341e3@s$om&r+i^pd7389qz!@48k7jg#h'
 
 ALLOWED_HOSTS = ['127.0.0.1', 'passion-geek.com', 'www.passion-geek.com']
 
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 # SESSION_COOKIE_AGE=
 
+# SECURITY WARNING: don't run with debug turned on in production!
+DEBUG = True
 
 # Application definition
 
@@ -130,10 +125,7 @@ INTERNAL_IPS = ['127.0.0.1']
 
 STATIC_URL = '/static/'
 
-# Static files settings
-PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
-
-STATIC_ROOT = os.path.join(PROJECT_ROOT, 'staticfiles')
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 # Openfoofacts search catégories
 CATEGORIES = [
@@ -143,6 +135,3 @@ CATEGORIES = [
     "Desserts",
     "Fromages"
 ]
-
-
-
