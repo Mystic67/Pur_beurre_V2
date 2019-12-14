@@ -127,10 +127,13 @@ INTERNAL_IPS = ['127.0.0.1']
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
-# if os.environ.get('ENV') == 'PRODUCTION':
-#     STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 STATIC_URL = '/static/'
+
+# Static files settings
+PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
+
+STATIC_ROOT = os.path.join(PROJECT_ROOT, 'staticfiles')
 
 # Openfoofacts search catégories
 CATEGORIES = [
@@ -140,5 +143,6 @@ CATEGORIES = [
     "Desserts",
     "Fromages"
 ]
+
 
 
