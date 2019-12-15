@@ -3,7 +3,8 @@ python:
       - '3.8'
 
 before_script:
-  - pipenv shell
+  - pip install pipenv
+  - pipenv install
 
 env: DJANGO_SETTINGS_MODULE="pur_beurre.settings.travis"
 
