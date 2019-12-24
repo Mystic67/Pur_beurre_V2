@@ -1,3 +1,17 @@
+# Server_project10 (Projet 10)
+Cette application est un Fork de mon application "pur beurre" du projet 8 pour le déployement sur un serveur dédié ou nutualisé autre que Heroku.  
+
+L'application integre le SDK de Travis-ci pour l'intégration continu.  
+Travis n'autorisera la fusion (merge) d'un code qu'après validation des tests d'intégration.  
+
+Les paramètres du projet sont regroupés dans un dossier à la racine de l'application principal "pur_beurre", mais les paramètres de production ne sont pas traker par github et sont uniquement présent le server de déployement.  
+Vous devez donc créé, dans le dossier "/pur_beurre/settings" de votre serveur, un fichier "production.py" avec vos propres paramètres selon le modèle ci-dessous. 
+
+<div align="center">
+    <img src="/store/static/store/img/production.py.png">
+</div>
+
+
 # Application Pur Beurre (Projet 8)
 
 ## **I. Présentation:**
