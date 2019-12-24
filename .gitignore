@@ -242,7 +242,7 @@ fabric.properties
 /.idea/inspectionProfiles/profiles_settings.xml
 /.idea/pur_beurre.iml
 /.idea/vcs.xml
-
+/.idea/server_projet10.iml
 #server collected staticfiles
 staticfiles/
 
