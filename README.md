@@ -1,18 +1,18 @@
-# Server_project10 (Projet 10)
-Cette application est un Fork de mon application "pur beurre" du projet 8, pour un déploiement sur un serveur dédié ou nutualisé autre que Heroku.  
+# Project 11 (Pur beurre V2)
+L' application Pur beurre V2 est une amélioration du projet "pur beurre" (projet 8), pour un déploiement sur un serveur dédié ou nutualisé.
 
-L'application integre le SDK de Travis-ci pour l'intégration continu.  
+Cette application integre le SDK de Travis-ci pour l'intégration continu.  
 Travis n'autorisera la fusion (merge) d'un code qu'après validation des tests d'intégration.  
 
 Les paramètres du projet sont regroupés dans un dossier à la racine de l'application principal "pur_beurre", mais les paramètres de production ne sont pas suivis par github et sont donc uniquement présent le server de déploiement.  
-Vous devez donc créé, dans le dossier "/pur_beurre/settings" de votre serveur, un fichier "production.py" avec vos propres paramètres selon le modèle ci-dessous. 
+Vous devez donc créé, dans le dossier "/pur_beurre_V2/settings" de votre serveur, un fichier "production.py" avec vos propres paramètres selon le modèle ci-dessous.
 
 <div align="center">
     <img src="/store/static/store/img/production.py.png">
 </div>
 
 
-# Application Pur Beurre (Projet 8)
+# Application Pur Beurre V2 (Projet 8)
 
 ## **I. Présentation:**
                                        
@@ -118,39 +118,8 @@ L'application peut être déployé sur un serveur Heroku.
 Vous pouvez vous rendre à l'adresse local indiquée dans le terminal avec votre navigateur web préféré.  
 Ex: http://127.0.0.1:800 ou http://localhost:8000
    
-## **III. Le déploiement sur serveur Heroku:**
 
-**Prérequis:**  
-Créer un compte sur heroku à l'adresse suivante:  
-<https://www.heroku.com/>
 
-#### **Installation**
-1. Créer une nouvelle application heroku.  
-   `>>> heroku create nom_application`
-2. Créer les variables d'environement sur le serveur:  
-   a) La variable ENV:  
-   `>>> heroku config;set ENV=PRODUCTION`  
-   b) La clé secrête de l'application:   
-        - Générer d'abord une nouvelle clé.  
-         `>>> import randon, string`   
-         `>>> "".join([random.choice(string.printable) for _ in range(24)])`  
-         Copier le résultat obtenu. 
-        - Placer la clé en variable d'enrironement sur heroku.  
-         `>>> heroku config:set SECRET_KEY='coller ici la clé généré'` <-- coller la clé généré entre guillements simple ( ' )  
-3. Pusher le repository sur serveur avec Git:  
-    `git push heroku master`
-    
-4. Créer les tables de la base de données et les peupler:
-    b) Créer les tables:  
-       `>>> python manage.py migrate`  
-    b) Peupler les tables avec les données d'openfoodfacts:  
-       `>>> python manage.py update_db`
-       
-    NB: Vous ne pouvez pas utiliser les commandes raccoucis comme aux l'étapes 2b et 2c.
-    
- 
-Si tout c'est bien passé, vous pouvez vous rendre à l'adresse du serveur heroku avec votre navigateur web préféré.   
- Exemple: http://le-nom-de-votre-app.herokuapp.com  
    
    
     
