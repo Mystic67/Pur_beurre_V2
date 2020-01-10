@@ -1,4 +1,4 @@
-"""pur_beurre URL Configuration
+"""pur_beurre_V2_app URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/2.2/topics/http/urls/

@@ -9,7 +9,7 @@ branches:
 before_script:
   - pip install -r requirements.txt
 
-env: DJANGO_SETTINGS_MODULE="pur_beurre.settings.travis"
+env: DJANGO_SETTINGS_MODULE="pur_beurre_V2_app.settings.travis"
 
 services:
   - postgresql
