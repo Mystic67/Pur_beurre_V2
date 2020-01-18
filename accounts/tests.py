@@ -1,6 +1,7 @@
+from django.core import mail
 from django.test import TestCase, Client
 from django.urls import reverse
-from django.contrib.auth import login, get_user
+from django.contrib.auth import login, get_user, authenticate
 
 from accounts.forms import RegisterForm, LoginForm, AccountForm
 from .models import User
@@ -183,3 +184,62 @@ class AccountPageTestCase(TestCase):
         # Test if account page is redirected when posted with good user data
         response = client.post(reverse('accounts:myaccount'), self.bad_user_data)
         self.assertEqual(response.status_code, 200)
+
+
+class PassWordResetTestCase(TestCase):
+    def setUp(self):
+        self.user = User.objects.create(email='Sebastien@fakemail.com')
+        self.user.set_password('fake_password')
+        self.user.save()
+        self.client = Client()
+
+    def test_password_reset_page(self):
+        self.user = User.objects.get(email='Sebastien@fakemail.com')
+        response = self.client.get(reverse('accounts:password_reset'))
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.template_name[0], 'accounts/password_reset.html')
+
+        # Post the response with user "email address"
+        response = self.client.post(reverse('accounts:password_reset'), {'email': 'Sebastien@fakemail.com'})
+        self.assertEqual(response.status_code, 302)
+
+        # Check if email is send with subject
+        self.assertEqual(len(mail.outbox), 1)
+        self.assertEqual(mail.outbox[0].subject, 'Réinitialisation de votre mot de passe pur beurre.')
+        # Create user id and token
+        uid = response.context[0]['uid']
+        token = response.context[0]['token']
+        return uid, token
+
+    def test_password_reset_done_page(self):
+        response = self.client.get(reverse('accounts:password_reset_done'))
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.template_name[0], 'accounts/password_reset_done.html')
+
+    def test_password_reset_confirm_page_with_uid_and_token_to_get_password_change_form(self):
+        self.uid, self.token = self.test_password_reset_page()
+        response = self.client.get(reverse('accounts:password_reset_confirm', kwargs={'uidb64': self.uid,
+                                                                                      'token': self.token}),
+                                   follow=True)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.template_name[0], 'accounts/password_reset_confirm.html')
+
+    def test_password_reset_confirm_page_with_new_password(self):
+        # Get password change page
+        self.test_password_reset_confirm_page_with_uid_and_token_to_get_password_change_form()
+        # Post password change page with new password
+        response = self.client.post(reverse('accounts:password_reset_confirm', kwargs={'uidb64': self.uid,
+                                                                                       'token': "set-password"}),
+                                    {'new_password1': 'new_fake_passwd', 'new_password2': 'new_fake_passwd'},
+                                    follow=True)
+        # Check the reponse page
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.template_name[0], 'accounts/password_reset_complete.html')
+        # Check if password is changed
+        user = User.objects.get(email='Sebastien@fakemail.com')
+        self.assertEqual(user.check_password('new_fake_passwd'), True)
+
+    def test_password_reset_complete_page(self):
+        response = self.client.get(reverse('accounts:password_reset_complete'))
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.template_name[0], 'accounts/password_reset_complete.html')
