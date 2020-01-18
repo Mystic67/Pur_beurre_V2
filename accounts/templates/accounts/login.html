@@ -23,7 +23,9 @@
         {{ login_form.as_p }}
         <br>
     	<input type="submit" value="Se connecter"/><br><br>
-    	<span>Je n'ai pas de compte, je <a href= "{%  url 'accounts:register' %}">m'enregistre</a> !</span>
+    	<span>Je n'ai pas de compte, je <a href= "{%  url 'accounts:register' %}">m'enregistre</a> !</span><br><br>
+        <span>Mot de passe oublié ? </span><br>
+        <span>Je <a href= "{%  url 'accounts:password_reset' %}">réinitilise </a>mon mot de passe !</span>
         </form>
     </div>
 {% endblock %}
