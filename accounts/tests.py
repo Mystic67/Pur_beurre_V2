@@ -1,3 +1,4 @@
+from django.contrib.auth.forms import PasswordChangeForm
 from django.core import mail
 from django.test import TestCase, Client
 from django.urls import reverse
@@ -192,9 +193,9 @@ class PassWordResetTestCase(TestCase):
         self.user.set_password('fake_password')
         self.user.save()
         self.client = Client()
+        self.new_password = "new_fake_password"
 
     def test_password_reset_page(self):
-        self.user = User.objects.get(email='Sebastien@fakemail.com')
         response = self.client.get(reverse('accounts:password_reset'))
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.template_name[0], 'accounts/password_reset.html')
@@ -225,21 +226,68 @@ class PassWordResetTestCase(TestCase):
         self.assertEqual(response.template_name[0], 'accounts/password_reset_confirm.html')
 
     def test_password_reset_confirm_page_with_new_password(self):
+        # Check if old password is in database
+        user = User.objects.get(email='Sebastien@fakemail.com')
+        self.assertEqual(user.check_password('fake_password'), True)
         # Get password change page
         self.test_password_reset_confirm_page_with_uid_and_token_to_get_password_change_form()
         # Post password change page with new password
         response = self.client.post(reverse('accounts:password_reset_confirm', kwargs={'uidb64': self.uid,
                                                                                        'token': "set-password"}),
-                                    {'new_password1': 'new_fake_passwd', 'new_password2': 'new_fake_passwd'},
+                                    {'new_password1': self.new_password, 'new_password2': self.new_password},
                                     follow=True)
         # Check the reponse page
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.template_name[0], 'accounts/password_reset_complete.html')
-        # Check if password is changed
+        # Check if new password has been set in database
         user = User.objects.get(email='Sebastien@fakemail.com')
-        self.assertEqual(user.check_password('new_fake_passwd'), True)
+        self.assertEqual(user.check_password(self.new_password), True)
 
     def test_password_reset_complete_page(self):
         response = self.client.get(reverse('accounts:password_reset_complete'))
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.template_name[0], 'accounts/password_reset_complete.html')
+
+
+class PasswordChangeTestCase(TestCase):
+    def setUp(self):
+        # Init database with user and password
+        self.user = User.objects.create(email='Sebastien@fakemail.com')
+        self.user.set_password('fake_password')
+        self.user.save()
+        self.client = Client()
+        self.client.login(email='Sebastien@fakemail.com', password="fake_password")
+        self.old_password = 'fake_password'
+        self.new_password = 'new_fake_password'
+        self.data = {
+            'old_password': self.old_password,
+            'new_password1': self.new_password,
+            'new_password2': self.new_password,
+        }
+
+    def test_password_change_get_page(self):
+        user = User.objects.get(email='Sebastien@fakemail.com')
+        self.assertEqual(user.check_password(self.old_password), True)
+        response = self.client.get(reverse('accounts:password_change'))
+        self.assertEqual(response.status_code, 200)
+
+    def test_password_change_post_page_with_data(self):
+        # Test if user is authenticated
+        self.assertTrue(self.user.is_authenticated)
+        # Test if form with fake data is valid
+        form = PasswordChangeForm(self.user, self.data)
+        self.assertTrue(form.is_valid())
+        # Check if old password in database before POST passwword change page with valid data
+        user = User.objects.get(email='Sebastien@fakemail.com')
+        self.assertEqual(user.check_password(self.old_password), True)
+        # Post passwword change page with valid data
+        response = self.client.post(reverse('accounts:password_change'), self.data, follow=True)
+        self.assertEqual(response.status_code, 200)
+        # Check if password has been changed after POST passwword change page with valid data
+        user = User.objects.get(email='Sebastien@fakemail.com')
+        self.assertEqual(user.check_password(self.new_password), True)
+        #self.assertEqual(response.template_name[0], 'accounts/password_change_done.html')
+        print(response.context)
+
+
+
