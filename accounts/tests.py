@@ -286,8 +286,6 @@ class PasswordChangeTestCase(TestCase):
         # Check if password has been changed after POST passwword change page with valid data
         user = User.objects.get(email='Sebastien@fakemail.com')
         self.assertEqual(user.check_password(self.new_password), True)
-        #self.assertEqual(response.template_name[0], 'accounts/password_change_done.html')
-        print(response.context)
 
 
 
