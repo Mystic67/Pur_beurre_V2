@@ -1,5 +1,6 @@
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth import login, logout, authenticate
+from django.contrib.auth import login, logout, authenticate, update_session_auth_hash
+from django.contrib.auth.forms import PasswordChangeForm
 from django.shortcuts import render
 from django.http.response import HttpResponseRedirect
 from django.urls import reverse
@@ -71,3 +72,20 @@ def user_account(request):
         account_form = AccountForm(instance=current_user)
         return render(request, 'accounts/myaccount.html', {'account_form': account_form})
 
+
+@login_required(login_url='accounts:login')
+def user_password_change(request):
+    if request.method == "POST":
+        account_change_password_form = PasswordChangeForm(request.user, request.POST)
+        if account_change_password_form.is_valid():
+            account_change_password_form.save()
+            update_session_auth_hash(request, request.user)
+            messages.success(request, 'Votre nouveau mot de passe à été enregistré avec succès !')
+            return render(request, 'accounts/password_change_done.html',
+                          {'account_change_password_form': account_change_password_form})
+        else:
+            messages.error(request, "mot de passe non valide")
+            return render(request, 'accounts/password_change.html',
+                          {'account_change_password_form': account_change_password_form})
+    else:
+        return render(request, 'accounts/password_change.html')
