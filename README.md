@@ -1,25 +1,8 @@
 # Project 11 (Pur beurre V2)
 L' application Pur beurre V2 est une amélioration du projet "pur beurre" (projet 8), pour un déploiement sur un serveur dédié ou nutualisé.
+Le version 2 de "Pur beurre", ajoute la possibilité, pour l'utilisateur, de réinitialiser sont mot de passe en cas d'oubli et de modifier son mot de passe une fois connecté à son compte.
 
-Cette application integre le SDK de Travis-ci pour l'intégration continu.  
-Travis n'autorisera la fusion (merge) d'un code qu'après validation des tests d'intégration.  
-
-Les paramètres du projet sont regroupés dans un dossier à la racine de l'application principal "pur_beurre", mais les paramètres de production ne sont pas suivis par github et sont donc uniquement présent le server de déploiement.  
-Vous devez donc créé, dans le dossier "/pur_beurre_V2/settings" de votre serveur, un fichier "production.py" avec vos propres paramètres selon le modèle ci-dessous.
-
-<div align="center">
-    <img src="/store/static/store/img/production.py.png">
-</div>
-
-
-# Application Pur Beurre V2 (Projet 8)
-
-## **I. Présentation:**
-                                       
-<div align="center">
-    <img src="/store/static/store/img/Screenshot.png">
-</div>
-
+## **I. Présentation**
 Pur beurre est un application web qui permet d'effectuer une recherche des aliments et de trouver un produit de substitutions 
 plus sain, que l'utilisateur peut ensuite enregister dans ses aliments de substitutions favoris après avoir créé un compte 
 et s'être authentifié.
@@ -74,7 +57,7 @@ L'application peut être déployé sur un serveur Heroku.
    ex: `>>> pip install pipenv`     
 2) Cloner ou télécharger le repository Git du projet dans le répertoire que vous venez de créer. 
 3) Aller dans le repertoire racine du projet.  
-    ex: `ex: cd /pur_beurre`
+    ex: `ex: cd /Pur_beurre_V2`
 4) Créer et démarrer votre environement virtuel pipenv:  
     ex: `>>> pipenv shell`
     NB: En tapant la commande 'ls' le fichier requirement.txt doit être visible.
@@ -82,11 +65,11 @@ L'application peut être déployé sur un serveur Heroku.
     `>>> pip install -r requirement.txt`  
 6) Votre environement est créé, il vous reste à installer les bases de données (voir la suite)
 
-#### **Installation de la base de donnée:**
+#### **Configuration des données de développement:**
 1) Configurer les settings:  
-    a) Ouvrer fichier 'settings.py' avec votre éditeur préféré qui se trouve depuis le racine du projet:  
-        **/pur_beurre/settings.py**  
-        (donc dans le répertoire: **/mon_projet/pur_beurre/pur_beurre/settings.py**)  
+    a) Ouvrer fichier '__init__.py' avec votre éditeur préféré qui se trouve depuis le racine de l'application du projet:  
+        **/pur_beurre_V2_app/__init__.py**  
+        (donc dans le répertoire: **/votre_repertoire/Pur_beurre_V2/pur_beurre_V2_app/settings.py**)  
     b) Modifier la configuration pour l'accès à votre base de donnée:  
         Dans la section DATABASES:  
     >        DATABASES = {  
@@ -117,6 +100,39 @@ L'application peut être déployé sur un serveur Heroku.
    
 Vous pouvez vous rendre à l'adresse local indiquée dans le terminal avec votre navigateur web préféré.  
 Ex: http://127.0.0.1:800 ou http://localhost:8000
+
+### **Configuration des données de production:**
+Pour des raisons de sécurité le fichier "production.py" doit être créer directement sur le serveur et ne doit pas être versionné sur Github.
+1) Créer un fichier "production.py" dans le répertoire  "/Pur_beurre_V2/pur_beurre_V2_app/settings/" directement sur le serveur:
+2) Editer le fichier "production.py" (/Pur_beurre_V2/pur_beurre_V2_app/settings/production.py), copier/coller les informations ci-dessous et adapter les informations avec les données de votre serveur:
+
+#### **production.py**
+
+    > from . import *
+    > SECRET_KEY = 'Votre clé d'application' # <- A remplaver par votre clé d'application  
+    > DEBUG = False  
+    > ALLOWED_HOSTS = ['www.exemple.com', 'localhost'] # <- A remplacer par votre nom de domaine et/ou adresse ip d'accès
+
+    > DATABASES = {
+    >     'default': {
+    >         'ENGINE': 'django.db.backends.postgresql',  # on utilise l'adaptateur postgresql
+    >         'NAME': 'pur_beurre',  # le nom de votre base de données.
+    >         'USER': 'votre_nom_d'utilisateur',  # attention : remplacez par votre nom d'utilisateur !!
+    >         'PASSWORD': 'votre_mot_de_passe', # remplacez par votre mot de passe d'accès à la base de données !!
+    >         'HOST': '',
+    >         'PORT': '5432',
+    >     }
+    > }
+
+    > EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+    > EMAIL_HOST = 'mail.exemple.com'  # A rempacer par le nom d'hôte qui envoi les mail
+    > EMAIL_PORT = 25  # A remplacer par le port du serveur mail (25, 465 ou 587) 
+    > EMAIL_USE_TLS = False  # mettre à "True" pour l'activation du Protocol TLS
+    > EMAIL_HOST_USER = 'exemple@mon_domaine.com'  # Nom d’utilisateur à utiliser pour le serveur SMTP
+    > EMAIL_HOST_PASSWORD = 'mot_de_passe'  # Remplacer par le mot de passe du serveur SMTP
+    > DEFAULT_FROM_EMAIL = 'exemple@mon_domaine.com'  # Remplacer par l'adresse mail d'envoi par défaut
+    > SERVER_EMAIL = 'exemple@mon_domaine.com'  # Remplacer par le serveur mail d'envoi
+
    
 
 
