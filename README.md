@@ -7,7 +7,10 @@ Pur beurre est un application web qui permet d'effectuer une recherche des alime
 plus sain, que l'utilisateur peut ensuite enregister dans ses aliments de substitutions favoris après avoir créé un compte 
 et s'être authentifié.
 Cette application est en Python/Django et utilise les bases de données d'Openfoodfacts.
-L'application peut être déployé sur un serveur Heroku.
+
+<div align="center">
+     <img src="/store/static/store/img/Screenshot.png">
+</div>
 
 **Fonctionnalités générales:**
 - Sur la page d'accueil, l'utilisateur accède à un moteur de recherche qui va lui permettre d'effectuer une recherche sur un aliment de son choix.
