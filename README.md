@@ -70,10 +70,10 @@ Cette application est en Python/Django et utilise les bases de données d'Openfo
 
 #### **Configuration des données de développement:**
 1) Configurer les settings:  
-    a) Ouvrer fichier '__init__.py' avec votre éditeur préféré qui se trouve depuis le racine de l'application du projet:  
-        **/pur_beurre_V2_app/__init__.py**  
-        (donc dans le répertoire: **/votre_repertoire/Pur_beurre_V2/pur_beurre_V2_app/settings.py**)  
-    b) Modifier la configuration pour l'accès à votre base de donnée:  
+    a) Ouvrir le fichier '\_\_init\_\_.py', avec votre éditeur préféré qui se trouve à le racine de l'application du projet:  
+        **/pur_beurre_V2_app/settings/\_\_init\_\_.py**  
+        (donc dans le répertoire: **/votre_repertoire/Pur_beurre_V2/pur_beurre_V2_app/settings/\_\_init\_\_.py**)  
+    b) Modifier la configuration pour l'accès à votre base de données:  
         Dans la section DATABASES:  
     >        DATABASES = {  
     >          'default': {  
@@ -105,7 +105,7 @@ Vous pouvez vous rendre à l'adresse local indiquée dans le terminal avec votre
 Ex: http://127.0.0.1:800 ou http://localhost:8000
 
 ### **Configuration des données de production:**
-Pour des raisons de sécurité le fichier "production.py" doit être créer directement sur le serveur et ne doit pas être versionné sur Github.
+Pour des raisons de sécurité le fichier "production.py" doit être créer directement créé sur le serveur et ne doit pas être versionné sur Github.
 1) Créer un fichier "production.py" dans le répertoire  "/Pur_beurre_V2/pur_beurre_V2_app/settings/" directement sur le serveur:
 2) Editer le fichier "production.py" (/Pur_beurre_V2/pur_beurre_V2_app/settings/production.py), copier/coller les informations ci-dessous et adapter les informations avec les données de votre serveur:
 
